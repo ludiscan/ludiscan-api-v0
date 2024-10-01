@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
+import { join } from 'path';
 dotenv.config();
 
 const DATABASE_HOST = process.env.DATABASE_HOST;
@@ -25,7 +26,7 @@ export default new DataSource({
     username: DATABASE_USER || 'postgres',
     password: DATABASE_PASSWORD || 'postgres',
     database: DATABASE_DB || 'test',
-    entities: ['src/database/entities/*.entity.ts'],
-    migrations: ['src/database/migrations/**/*.ts'], // フォルダを作成すること
+    entities: [join(__dirname, '**', '*.entity.{ts,js}')],
+    migrations: [join(__dirname, '**', 'migrations/**/*.ts')], // フォルダを作成すること
     synchronize: false,
 });
