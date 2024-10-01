@@ -19,6 +19,6 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
   },
-  "include": ["src/**/*", "src/*"],
-  "exclude": ["node_modules", "dist", "src/database/migrations/**/*"]
+  "include": ["src/**/*", "src/*", "test/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
