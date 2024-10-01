@@ -14,8 +14,7 @@ const seed = async () => {
         if (
             await userRepository.findOne({
                 where: {
-                    firstName: userData.firstName,
-                    lastName: userData.lastName,
+                    name: userData.firstName,
                 },
             })
         ) {
