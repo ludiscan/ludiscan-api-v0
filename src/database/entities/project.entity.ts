@@ -4,9 +4,10 @@ import {
     Column,
     CreateDateColumn,
 } from 'typeorm';
+import { ProjectInterface } from '../../interface/project.interface';
 
 @Entity('projects')
-export class Project {
+export class Project implements ProjectInterface {
     @PrimaryGeneratedColumn()
     id: number;
 

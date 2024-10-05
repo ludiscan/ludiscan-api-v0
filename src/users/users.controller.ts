@@ -5,8 +5,8 @@ import { User } from '../database/entities/user.entity';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user';
 
-@ApiTags('users')
-@Controller('users')
+@ApiTags('v0')
+@Controller('v0/users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
@@ -30,8 +30,9 @@ export class UsersController {
     create(@Body() createUserDto: CreateUserDto): Promise<User> {
         console.log(createUserDto);
         return this.usersService.create(
-            createUserDto.firstName,
-            createUserDto.lastName,
+            createUserDto.name,
+            createUserDto.email,
+            createUserDto.password,
         );
     }
     // 他のエンドポイント

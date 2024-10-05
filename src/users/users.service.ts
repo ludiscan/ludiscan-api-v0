@@ -19,10 +19,11 @@ export class UsersService {
         return this.usersRepository.findOneBy({ id });
     }
 
-    create(firstName: string, lastName: string): Promise<User> {
+    create(name: string, email: string, password: string): Promise<User> {
         return this.usersRepository.save({
-            firstName: firstName,
-            lastName: lastName,
+            name,
+            email,
+            password,
             isActive: true,
         });
     }
