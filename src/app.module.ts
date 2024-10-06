@@ -7,8 +7,8 @@ import { TypeOrmConfigService } from './database/database.config';
 import configuration from './config/configuration';
 import Joi from 'joi';
 import { UsersModule } from './users/users.module';
-import { ProjectsController } from './projects/projects.controller';
 import { ProjectsModule } from './projects/projects.module';
+import { PlaySessionModule } from '/src/play-session/play-session.module';
 
 @Module({
     imports: [
@@ -33,8 +33,9 @@ import { ProjectsModule } from './projects/projects.module';
         }),
         UsersModule,
         ProjectsModule,
+        PlaySessionModule,
     ],
-    controllers: [AppController, ProjectsController],
+    controllers: [AppController],
     providers: [AppService],
 })
 export class AppModule {}

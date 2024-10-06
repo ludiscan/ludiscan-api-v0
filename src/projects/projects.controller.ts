@@ -6,7 +6,7 @@ import { ProjectResponseDto } from './dto/project-response.dto';
 import { DefaultSuccessResponse } from '../common/model/default';
 import { Project } from '../database/entities/project.entity';
 
-@ApiTags('projects')
+@ApiTags('v0')
 @Controller('/v0/projects')
 export class ProjectsController {
     constructor(private readonly projectsService: ProjectsService) {}

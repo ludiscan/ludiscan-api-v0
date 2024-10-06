@@ -6,7 +6,7 @@ import {
     ManyToOne,
 } from 'typeorm';
 import { Project } from './project.entity';
-import { PlayerSession } from './player-session.entity';
+import { PlaySession } from './play-session.entity';
 
 @Entity()
 export class GeneralEventLog {
@@ -16,10 +16,10 @@ export class GeneralEventLog {
     @ManyToOne(() => Project, (project) => project.id, { nullable: false })
     project: Project;
 
-    @ManyToOne(() => PlayerSession, (session) => session.id, {
+    @ManyToOne(() => PlaySession, (session) => session.id, {
         nullable: false,
     })
-    session: PlayerSession;
+    session: PlaySession;
 
     @Column()
     eventType: string;

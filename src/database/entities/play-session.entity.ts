@@ -7,9 +7,11 @@ import {
 } from 'typeorm';
 import { Project } from './project.entity';
 import { User } from './user.entity';
+import { PlaySessionInterface } from '../../interface/play-session.interface';
+import { IsString, MinLength } from 'class-validator';
 
-@Entity('player_sessions')
-export class PlayerSession {
+@Entity('play_sessions')
+export class PlaySession implements PlaySessionInterface {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -17,23 +19,28 @@ export class PlayerSession {
     project: Project;
 
     @ManyToOne(() => User, (user) => user.id, { nullable: true })
-    user: User;
+    user?: User;
+
+    @Column()
+    @IsString()
+    @MinLength(1)
+    name: string;
 
     @Column({ nullable: true })
-    deviceId: string; // デバイス識別子
+    deviceId?: string; // デバイス識別子
 
     @Column({ nullable: true })
-    platform: string; // プラットフォーム情報
+    platform?: string; // プラットフォーム情報
 
     @Column({ nullable: true })
-    appVersion: string; // アプリのバージョン情報
+    appVersion?: string; // アプリのバージョン情報
 
     @Column('jsonb', { nullable: true })
-    metaData: object; // その他のメタ情報
+    metaData?: object; // その他のメタ情報
 
     @CreateDateColumn({ default: () => 'CURRENT_TIMESTAMP' })
     startTime: Date;
 
     @Column({ nullable: true })
-    endTime: Date; // nullの場合はセッション継続中
+    endTime?: Date; // nullの場合はセッション継続中
 }

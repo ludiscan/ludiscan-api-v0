@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 
 export class LudiscanException extends HttpException {
     constructor(message: string, errorCode: number, statusCode: number) {
@@ -17,4 +17,14 @@ export function RaiseException<T extends LudiscanException>(
     exception: T,
 ): void {
     throw exception;
+}
+
+function RaiseExceptionOfType<T extends HttpException>(type: {
+    new (): T;
+}): void {
+    throw new type();
+}
+
+export function RaiseNotFoundException(): void {
+    RaiseExceptionOfType(NotFoundException);
 }

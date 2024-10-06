@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Project } from './project.entity';
-import { PlayerSession } from './player-session.entity';
+import { PlaySession } from './play-session.entity';
 
 @Entity('player_position_logs')
 export class PlayerPositionLog {
@@ -10,10 +10,10 @@ export class PlayerPositionLog {
     @ManyToOne(() => Project, (project) => project.id, { nullable: false })
     project: Project;
 
-    @ManyToOne(() => PlayerSession, (session) => session.id, {
+    @ManyToOne(() => PlaySession, (session) => session.id, {
         nullable: false,
     })
-    session: PlayerSession;
+    session: PlaySession;
 
     @Column('float', { default: 0 })
     x: number;
