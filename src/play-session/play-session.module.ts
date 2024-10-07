@@ -9,5 +9,6 @@ import { ProjectsModule } from '/src/projects/projects.module';
     imports: [TypeOrmModule.forFeature([PlaySession]), ProjectsModule],
     providers: [PlaySessionService],
     controllers: [PlaySessionController],
+    exports: [PlaySessionService],
 })
 export class PlaySessionModule {}

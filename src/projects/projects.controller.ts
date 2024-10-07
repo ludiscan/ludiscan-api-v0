@@ -3,11 +3,12 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { ProjectResponseDto } from './dto/project-response.dto';
-import { DefaultSuccessResponse } from '../common/model/default';
-import { Project } from '../database/entities/project.entity';
+import { DefaultSuccessResponse } from 'src/common/model/default';
+import { Project } from 'src/database/entities/project.entity';
+import { v0Endpoint } from '../common/paths';
 
-@ApiTags('v0')
-@Controller('/v0/projects')
+@ApiTags(v0Endpoint.tag)
+@Controller(v0Endpoint.projects.root)
 export class ProjectsController {
     constructor(private readonly projectsService: ProjectsService) {}
 

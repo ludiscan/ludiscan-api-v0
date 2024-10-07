@@ -8,7 +8,8 @@ import configuration from './config/configuration';
 import Joi from 'joi';
 import { UsersModule } from './users/users.module';
 import { ProjectsModule } from './projects/projects.module';
-import { PlaySessionModule } from '/src/play-session/play-session.module';
+import { PlaySessionModule } from 'src/play-session/play-session.module';
+import { PlayerPositionLogModule } from './player-position-log/player-position-log.module';
 
 @Module({
     imports: [
@@ -34,6 +35,7 @@ import { PlaySessionModule } from '/src/play-session/play-session.module';
         UsersModule,
         ProjectsModule,
         PlaySessionModule,
+        PlayerPositionLogModule,
     ],
     controllers: [AppController],
     providers: [AppService],

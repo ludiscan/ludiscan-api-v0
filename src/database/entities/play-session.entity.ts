@@ -43,4 +43,8 @@ export class PlaySession implements PlaySessionInterface {
 
     @Column({ nullable: true })
     endTime?: Date; // nullの場合はセッション継続中
+
+    isPlaying(): boolean {
+        return this.endTime === null;
+    }
 }

@@ -4,26 +4,52 @@ import { Repository } from 'typeorm';
 import { CreatePlaySessionDto } from './dto/create-play-session.dto';
 import { PlaySession } from '/src/database/entities/play-session.entity';
 import { RaiseNotFoundException } from '/src/common/exception/ludiscan-exception';
-import { ProjectsService } from '/src/projects/projects.service';
+import { Project } from '../database/entities/project.entity';
 
 @Injectable()
 export class PlaySessionService {
     constructor(
         @InjectRepository(PlaySession)
         private readonly playSessionRepository: Repository<PlaySession>,
-        private readonly projectsService: ProjectsService,
     ) {}
 
-    async findAll(): Promise<PlaySession[]> {
-        return this.playSessionRepository.find({
-            relations: ['project', 'user'],
+    async findAll(project: Project): Promise<PlaySession[]> {
+        return await this.playSessionRepository.find({
+            where: { project },
+            relations: ['project'],
+            select: {
+                id: true,
+                project: {
+                    id: true,
+                },
+                name: true,
+                startTime: true,
+                endTime: true,
+                deviceId: true,
+                platform: true,
+                appVersion: true,
+                metaData: {},
+            },
         });
     }
 
-    async findOne(id: number): Promise<PlaySession> {
+    async findOne(projectId: number, sessionId: number): Promise<PlaySession> {
         const session = await this.playSessionRepository.findOne({
-            where: { id },
-            relations: ['project', 'user'],
+            where: { id: sessionId, project: { id: projectId } },
+            relations: ['project'],
+            select: {
+                id: true,
+                project: {
+                    id: true,
+                },
+                name: true,
+                startTime: true,
+                endTime: true,
+                deviceId: true,
+                platform: true,
+                appVersion: true,
+                metaData: {},
+            },
         });
         if (!session) {
             RaiseNotFoundException();
@@ -32,24 +58,36 @@ export class PlaySessionService {
     }
 
     async create(
-        projectId: number,
+        project: Project,
         playSessionData: CreatePlaySessionDto,
     ): Promise<PlaySession> {
-        const newSession = this.playSessionRepository.create(playSessionData);
-        return this.playSessionRepository.save(newSession);
-    }
-
-    async update(
-        id: number,
-        playSessionData: Partial<PlaySession>,
-    ): Promise<PlaySession> {
-        const session = await this.findOne(id);
+        if (!project) {
+            RaiseNotFoundException();
+        }
+        const session = this.playSessionRepository.create();
+        session.project = project;
         Object.assign(session, playSessionData);
         return this.playSessionRepository.save(session);
     }
 
-    async delete(id: number): Promise<void> {
-        const session = await this.findOne(id);
-        await this.playSessionRepository.remove(session);
+    async finish(projectId: number, sessionId: number): Promise<PlaySession> {
+        const session = await this.findOne(projectId, sessionId);
+        session.endTime = new Date();
+        return this.playSessionRepository.save(session);
+    }
+
+    async update(
+        projectId: number,
+        sessionId: number,
+        playSessionData: Partial<PlaySession>,
+    ): Promise<PlaySession> {
+        const session = await this.findOne(projectId, sessionId);
+        Object.assign(session, playSessionData);
+        return this.playSessionRepository.save(session);
+    }
+
+    async delete(projectId: number, sessionId: number): Promise<void> {
+        await this.findOne(projectId, sessionId);
+        await this.playSessionRepository.delete(sessionId);
     }
 }

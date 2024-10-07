@@ -1,9 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Project } from './project.entity';
 import { PlaySession } from './play-session.entity';
+import { PlayerPositionLogInterface } from '../../interface/player-position-log.interface';
 
 @Entity('player_position_logs')
-export class PlayerPositionLog {
+export class PlayerPositionLog implements PlayerPositionLogInterface {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -22,11 +23,11 @@ export class PlayerPositionLog {
     y: number;
 
     @Column('float', { nullable: true })
-    z: number; // 3D座標対応
+    z?: number; // 3D座標対応
 
     @Column('bigint')
-    offsetTimestamp: number; // セッション開始からの経過時間（ミリ秒）
+    offsetTimestamp: bigint; // セッション開始からの経過時間（ミリ秒）
 
-    @Column()
-    location: string; // 座標を複合的に扱う場合の例（必要に応じてカスタム）
+    @Column('text', { nullable: true })
+    location?: string; // 座標を複合的に扱う場合の例（必要に応じてカスタム）
 }

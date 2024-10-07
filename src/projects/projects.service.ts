@@ -14,10 +14,15 @@ export class ProjectsService {
         return await this.projectRepository.find();
     }
 
-    async create(createProjectDto: CreateProjectDto) {
-        await this.projectRepository.insert({
-            name: createProjectDto.name,
-            description: createProjectDto.description,
+    async findOne(id: number): Promise<Project> {
+        return await this.projectRepository.findOne({
+            where: { id },
         });
+    }
+
+    async create(createProjectDto: CreateProjectDto): Promise<Project> {
+        const project = this.projectRepository.create();
+        Object.assign(project, createProjectDto);
+        return await this.projectRepository.save(project);
     }
 }
