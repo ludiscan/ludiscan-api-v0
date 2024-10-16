@@ -10,6 +10,9 @@ export class PlayPositionLogResponseDto implements PlayerPositionLogInterface {
     @ApiProperty({ required: true, minimum: 1 })
     session: PlaySessionResponseDto;
 
+    @ApiProperty({ description: 'Player identifier', example: 1 })
+    player: number;
+
     @ApiProperty({ required: true, minimum: 1 })
     x: number;
 

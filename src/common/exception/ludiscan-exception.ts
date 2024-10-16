@@ -28,3 +28,7 @@ function RaiseExceptionOfType<T extends HttpException>(type: {
 export function RaiseNotFoundException(): void {
     RaiseExceptionOfType(NotFoundException);
 }
+
+export function RaiseBadRequestException(message: string): void {
+    RaiseException(new LudiscanException(message, 400, 400));
+}

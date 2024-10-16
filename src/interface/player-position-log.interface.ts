@@ -1,4 +1,6 @@
 export interface PlayerPositionLogInterface {
+    player: number;
+
     x: number;
 
     y: number;

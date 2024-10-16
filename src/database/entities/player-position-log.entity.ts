@@ -16,6 +16,9 @@ export class PlayerPositionLog implements PlayerPositionLogInterface {
     })
     session: PlaySession;
 
+    @Column('integer')
+    player: number;
+
     @Column('float', { default: 0 })
     x: number;
 
