@@ -25,8 +25,8 @@ export class PlayerPositionLog implements PlayerPositionLogInterface {
     @Column('float', { nullable: true })
     z?: number; // 3D座標対応
 
-    @Column('bigint')
-    offsetTimestamp: bigint; // セッション開始からの経過時間（ミリ秒）
+    @Column('integer')
+    offsetTimestamp: number;
 
     @Column('text', { nullable: true })
     location?: string; // 座標を複合的に扱う場合の例（必要に応じてカスタム）

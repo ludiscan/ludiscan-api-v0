@@ -23,7 +23,7 @@ export class PlayPositionLogPostPipe implements PipeTransform {
                     x,
                     y,
                     z,
-                    offsetTimestamp: timestamp,
+                    offsetTimestamp: Number(timestamp),
                 });
             }
         } catch (error: unknown) {

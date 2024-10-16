@@ -5,7 +5,7 @@ export interface PlayerPositionLogInterface {
 
     z?: number;
 
-    offsetTimestamp: bigint;
+    offsetTimestamp: number;
 
     location?: string;
 }

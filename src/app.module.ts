@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import { ProjectsModule } from './projects/projects.module';
 import { PlaySessionModule } from 'src/play-session/play-session.module';
 import { PlayerPositionLogModule } from './player-position-log/player-position-log.module';
+import { LoggerMiddleware } from './common/logger';
 
 @Module({
     imports: [
@@ -40,4 +41,8 @@ import { PlayerPositionLogModule } from './player-position-log/player-position-l
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+    configure(consumer: MiddlewareConsumer): void {
+        consumer.apply(LoggerMiddleware).forRoutes('');
+    }
+}

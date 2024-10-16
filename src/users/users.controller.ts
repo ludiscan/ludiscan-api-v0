@@ -1,5 +1,12 @@
 // src/users/users.controller.ts
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '../database/entities/user.entity';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -20,8 +27,8 @@ export class UsersController {
     @Get(':id')
     @ApiOperation({ summary: '特定のユーザーを取得' })
     @ApiResponse({ status: 200, description: '成功', type: User })
-    findOne(@Param('id') id: number): Promise<User> {
-        return this.usersService.findOne(id);
+    findOne(@Param('id', ParseIntPipe) id: string): Promise<User> {
+        return this.usersService.findOne(Number(id));
     }
 
     @Post()

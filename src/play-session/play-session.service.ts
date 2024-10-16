@@ -15,7 +15,7 @@ export class PlaySessionService {
 
     async findAll(project: Project): Promise<PlaySession[]> {
         return await this.playSessionRepository.find({
-            where: { project },
+            where: { project: { id: project.id } },
             relations: ['project'],
             select: {
                 id: true,

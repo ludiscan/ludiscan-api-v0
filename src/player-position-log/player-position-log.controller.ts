@@ -1,6 +1,20 @@
-import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    UsePipes,
+} from '@nestjs/common';
 import { v0Endpoint } from '../common/paths';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+    ApiBody,
+    ApiConsumes,
+    ApiOperation,
+    ApiResponse,
+    ApiTags,
+} from '@nestjs/swagger';
 import { PlayPositionLogPostPipe } from './tasks/play-position-log-post.pipe';
 import { PlayPositionLogDto } from './dto/play-position-log.dto';
 import { PlayerPositionLogService } from './player-position-log.service';
@@ -23,29 +37,49 @@ export class PlayerPositionLogController {
         type: [PlayPositionLogDto],
     })
     async get(
-        @Param(v0Endpoint.playerPositionLog.project_id) projectId: number,
-        @Param(v0Endpoint.playerPositionLog.play_session_id) sessionId: number,
+        @Param(v0Endpoint.playerPositionLog.project_id, ParseIntPipe)
+        projectId: string,
+        @Param(v0Endpoint.playerPositionLog.play_session_id, ParseIntPipe)
+        sessionId: string,
     ): Promise<PlayPositionLogDto[]> {
-        const project = await this.projectService.findOne(projectId);
-        const session = await this.sessionService.findOne(projectId, sessionId);
+        const project = await this.projectService.findOne(Number(projectId));
+        const session = await this.sessionService.findOne(
+            Number(projectId),
+            Number(sessionId),
+        );
         return this.positionService.findAll(project, session);
     }
 
     @Post()
     @UsePipes(PlayPositionLogPostPipe)
+    @ApiConsumes('application/octet-stream')
+    @ApiOperation({ summary: 'Upload binary player data' })
     @ApiResponse({
         status: 201,
         description: 'Created',
         type: DefaultSuccessResponse,
     })
+    @ApiBody({
+        description: 'Binary data',
+        required: true,
+        schema: {
+            type: 'string',
+            format: 'binary',
+        },
+    })
     async post(
-        @Param(v0Endpoint.playerPositionLog.project_id) projectId: number,
-        @Param(v0Endpoint.playerPositionLog.play_session_id) sessionId: number,
+        @Param(v0Endpoint.playerPositionLog.project_id, ParseIntPipe)
+        projectId: string,
+        @Param(v0Endpoint.playerPositionLog.play_session_id, ParseIntPipe)
+        sessionId: string,
         @Body() positions: PlayPositionLogDto[],
     ) {
         console.log(positions);
-        const project = await this.projectService.findOne(projectId);
-        const session = await this.sessionService.findOne(projectId, sessionId);
+        const project = await this.projectService.findOne(Number(projectId));
+        const session = await this.sessionService.findOne(
+            Number(projectId),
+            Number(sessionId),
+        );
         await this.positionService.savePositions(project, session, positions);
         return new DefaultSuccessResponse();
     }

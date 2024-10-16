@@ -22,10 +22,10 @@ export class PlayPositionLogResponseDto implements PlayerPositionLogInterface {
     @ApiProperty({
         required: true,
         minimum: 1,
-        type: 'bigint',
+        type: 'integer',
         name: 'offset_timestamp',
     })
-    offsetTimestamp: bigint;
+    offsetTimestamp: number;
 
     @ApiProperty({ required: false, nullable: true, name: 'location' })
     location?: string;
